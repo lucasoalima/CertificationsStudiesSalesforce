@@ -1,0 +1,23 @@
+[
+  {
+    "q": "A company needs to unify customer profiles coming from several systems. Which Data 360 feature should a consultant use?",
+    "o": ["Data Streams", "Identity Resolution", "Segmentation", "Activation"],
+    "a": "B",
+    "e": "Identity Resolution aplica match e reconciliation rules para unificar perfis de origem em um Unified Individual.",
+    "t": "Identity Resolution"
+  },
+  {
+    "q": "Which two objects can be used in identity resolution match rules? Choose 2 answers",
+    "o": ["Party Identification", "Sales Order", "Contact Point Email", "Engagement"],
+    "a": ["A", "C"],
+    "e": "Match rules usam atributos do Individual, contact points (ex.: Contact Point Email) e Party Identification.",
+    "t": "Identity Resolution"
+  },
+  {
+    "q": "A record must be visible to a user who is neither the owner nor above the owner in the role hierarchy. OWD is Private. What is the most scalable declarative option?",
+    "o": ["Manual sharing", "Criteria-based sharing rule", "Apex managed sharing", "Change OWD to Public Read Only"],
+    "a": 1,
+    "e": "Sharing rules abrem acesso de forma declarativa e escalável quando há um critério; manual sharing não escala e Apex managed sharing é para lógica que regras não cobrem.",
+    "t": "Access to Records"
+  }
+]

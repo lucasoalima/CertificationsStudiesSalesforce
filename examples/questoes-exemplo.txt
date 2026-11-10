@@ -1,0 +1,23 @@
+Question 1
+A company needs to unify customer profiles coming from several systems. Which Data 360 feature should a consultant use?
+A. Data Streams
+B. Identity Resolution
+C. Segmentation
+D. Activation
+Answer: B
+Explanation: Identity Resolution matches and reconciles source profiles into unified profiles.
+
+Question 2
+Which two objects can be used in identity resolution match rules? Choose 2 answers
+A. Party Identification
+B. Sales Order
+C. Contact Point Email
+D. Engagement
+Answer: A, C
+
+Question 3
+Where does raw ingested data land before mapping?
+A. Data Model Object
+B. Data Lake Object
+C. Calculated Insight
+D. Segment
