@@ -1036,15 +1036,26 @@ Reply with only JSON: [{"a":"B" or ["A","C"],"e":"explicação","s":"section key
    (Array.isArray(r)?r:[]).forEach((y,j)=>{const x=part[j];if(!x||!y)return;const a=parseLetters(y.a,x.o.length);if(a==null)return;done.push(Object.assign({},x,{a,e:x.e||String(y.e||''),s:x.s||y.s||''}))})}
   catch(e){out.innerHTML=`<div class="iv-err">${errMsgAI(e)} ${done.length?'As já revisadas serão importadas.':''}</div>`;break}}
  const r=addToBank(withA.concat(done),'import');bankDone(r)}
-function bankGen(){homeBtn.hidden=false;const C=BANKCFG[BANK];const secs=C.sections||[];
+function backendUrl(){try{return (JSON.parse(localStorage.getItem('afs_ai'))||{}).backend||''}catch(e){return ''}}
+async function backendGenerate(section,n){const u=backendUrl();const r=await fetch(u+'/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({cert:BANK,section,n,verify:true,keep:'review',existing:BANKS[BANK].map(q=>({q:q.q,o:q.o,a:q.a,s:q.s}))})});
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw {code:'backend',msg:j.detail||('HTTP '+r.status)};return j}
+function bankGen(){homeBtn.hidden=false;const C=BANKCFG[BANK];const secs=C.sections||[];const bu=backendUrl();
  app.innerHTML=bkTop('gerar perguntas')+`<article class="st-lesson bk"><h2>✨ Gerar perguntas de estudo</h2>
   <p>A IA escreve questões originais de cenário, no estilo da prova ${esc(C.code)}, com explicação em português. São perguntas de estudo: confira na documentação oficial se algo parecer estranho.</p>
   <div class="row"><select id="bkSec">${secs.map(x=>`<option value="${x.k}">${esc(x.name)}${x.w?' · '+x.w+'%':''}</option>`).join('')}<option value="__all">Todas as seções (proporcional)</option></select>
   <select id="bkN">${[5,10,15].map(n=>`<option value="${n}" ${n===10?'selected':''}>${n} questões</option>`).join('')}</select>
-  <button class="btn primary" id="bkGenGo">Gerar</button></div><div id="bkOut"></div></article>`;
+  <button class="btn primary" id="bkGenGo">Gerar</button></div>
+  ${bu?`<label class="check"><input type="checkbox" id="bkRag" checked> Usar o backend RAG (${esc(bu)}): perguntas fundamentadas nos seus documentos e verificadas por um segundo modelo</label>`:''}
+  <div id="bkOut"></div></article>`;
  bkBind();const $=i=>document.getElementById(i);
- $('bkGenGo').onclick=async()=>{const out=$('bkOut');const sm=await aiSample();if(!sm){out.innerHTML=`<div class="iv-err">${AI_NEED()}</div>`;return}
+ $('bkGenGo').onclick=async()=>{const out=$('bkOut');const sm=await aiSample();
   const sec=$('bkSec').value,n=+$('bkN').value;$('bkGenGo').disabled=true;
+  if($('bkRag')&&$('bkRag').checked){const targets=sec==='__all'?secs.map(x=>x.k):[sec];const all=[];const st={accepted:0,review:0,rejected:0,duplicates:0};
+   for(const k of targets){const m=sec==='__all'?Math.max(1,Math.round(n/targets.length)):n;out.innerHTML=`<div class="iv-loading"><span class="iv-dot"></span><span class="iv-dot"></span><span class="iv-dot"></span><span>Backend: buscando trechos, gerando e verificando ${m} questões de ${esc(secName(BANK,k))}…</span></div>`;
+    try{const j=await backendGenerate(k,m);(j.questions||[]).forEach(x=>all.push(Object.assign({},x,{s:k})));['accepted','review','rejected','duplicates'].forEach(z=>st[z]+=(j.stats||{})[z]||0)}
+    catch(e){out.innerHTML=`<div class="iv-err">Backend: ${esc(e.msg||'não respondeu')}</div>`;$('bkGenGo').disabled=false;if(!all.length)return;break}}
+   const res=addToBank(all,'ai');bankDone(res);const el=document.querySelector('.hero .st-gapbox');if(el)el.insertAdjacentHTML('beforeend',`<p>Verificador: ${st.accepted} aprovadas · ${st.review} para revisão · ${st.rejected} rejeitadas · ${st.duplicates} duplicadas descartadas.</p>`);return}
+  if(!sm){out.innerHTML=`<div class="iv-err">${AI_NEED()}</div>`;$('bkGenGo').disabled=false;return}
   const targets=sec==='__all'?secs.map(x=>x.k):[sec];const all=[];
   for(const k of targets){const name=secName(BANK,k);const m=sec==='__all'?Math.max(1,Math.round(n/targets.length)):n;
    out.innerHTML=`<div class="iv-loading"><span class="iv-dot"></span><span class="iv-dot"></span><span class="iv-dot"></span><span>Gerando ${m} questões de ${esc(name)}…</span></div>`;
@@ -3514,9 +3525,12 @@ function certCard(c,f,big){const nq=c.bank===true?BANKS[c.id].length:null;
   <div class="row">${c.bank==='rev'?`<button class="btn primary" data-go-tab="rev">💰 Abrir trilha Revenue</button>`:nq?`<button class="btn primary" data-bank="${c.id}" data-go-tab="cert">📝 Simulado</button><button class="btn" data-bank="${c.id}" data-go-tab="weak">🎯 Reforço</button>`:`<button class="btn primary" data-bank="${c.id}" data-go-tab="cert">📥 Importar ou gerar questões</button>`}${f!==c.id?`<button class="btn ghost" data-focus="${c.id}">⭐ Colocar em foco</button>`:''}</div></section>`}
 function aiPanel(){if(!window.__claudeShim)return '';let c={};try{c=JSON.parse(localStorage.getItem('afs_ai'))||{}}catch(e){}
  return `<section class="panel ai-cfg" style="margin-top:14px"><h3>⚙️ IA (opcional)</h3><p class="muted" style="margin:0">Fora do claude.ai, os recursos de IA (gerar perguntas, entrevista, aulas, correção de código) usam a API da Anthropic com a sua chave. Ela fica salva só neste navegador. ${c.key?'<b>Chave configurada ✅</b>':''}</p>
- <div class="row"><input id="aiKey" type="password" placeholder="sk-ant-..." autocomplete="off" style="flex:1;min-width:0"><input id="aiModel" placeholder="modelo" value="${esc(c.model||AI_DEFAULT_MODEL)}" style="width:14em"><button class="btn primary" id="aiSave">Salvar</button>${c.key?'<button class="btn ghost" id="aiDel">Remover chave</button>':''}</div></section>`}
+ <div class="row"><input id="aiKey" type="password" placeholder="sk-ant-..." autocomplete="off" style="flex:1;min-width:0"><input id="aiModel" placeholder="modelo" value="${esc(c.model||AI_DEFAULT_MODEL)}" style="width:14em"><button class="btn primary" id="aiSave">Salvar</button>${c.key?'<button class="btn ghost" id="aiDel">Remover chave</button>':''}</div>
+ <p class="muted" style="margin:0"><b>Backend RAG (opcional):</b> rode o backend Python (pasta <code>backend/</code>) e informe a URL. Aí o ✨ Gerar perguntas usa os seus documentos como base e verifica cada questão antes de entrar no banco.</p>
+ <div class="row"><input id="aiBackend" placeholder="http://localhost:8000" value="${esc(c.backend||'')}" style="flex:1;min-width:0"><button class="btn" id="aiTest">Testar conexão</button></div><div id="aiTestOut"></div></section>`}
 function cxHome(){homeBtn.hidden=true;const c=CERTS.find(x=>x.id===cxId())||CERTS[1];app.innerHTML=`<div style="height:14px"></div>`+certCard(c,LS.get('afs_focus','d360'),true);bindCert()}
-function bindCert(){const sv=document.getElementById('aiSave');if(sv)sv.onclick=()=>{let c={};try{c=JSON.parse(localStorage.getItem('afs_ai'))||{}}catch(e){}const k=document.getElementById('aiKey').value.trim();if(k)c.key=k;c.model=document.getElementById('aiModel').value.trim()||AI_DEFAULT_MODEL;try{localStorage.setItem('afs_ai',JSON.stringify(c))}catch(e){}location.reload()};
+function bindCert(){const sv=document.getElementById('aiSave');if(sv)sv.onclick=()=>{let c={};try{c=JSON.parse(localStorage.getItem('afs_ai'))||{}}catch(e){}const k=document.getElementById('aiKey').value.trim();if(k)c.key=k;c.model=document.getElementById('aiModel').value.trim()||AI_DEFAULT_MODEL;c.backend=document.getElementById('aiBackend').value.trim().replace(/\/+$/,'');try{localStorage.setItem('afs_ai',JSON.stringify(c))}catch(e){}location.reload()};
+ const tb=document.getElementById('aiTest');if(tb)tb.onclick=async()=>{const u=document.getElementById('aiBackend').value.trim().replace(/\/+$/,'');const o=document.getElementById('aiTestOut');if(!u){o.innerHTML='';return}o.textContent='Testando…';try{const r=await fetch(u+'/health');const j=await r.json();o.innerHTML=`<div class="st-gapbox ok"><b>Conectado ✅</b><p>${j.chunks} trechos indexados · embedder ${esc(j.embedder)} · LLM ${esc(j.provider)}</p></div>`}catch(e){o.innerHTML='<div class="iv-err">Não consegui conectar. O backend está rodando (python -m qgen serve)?</div>'}};
  const dl=document.getElementById('aiDel');if(dl)dl.onclick=()=>{try{localStorage.removeItem('afs_ai')}catch(e){}location.reload()};
 app.querySelectorAll('[data-go-tab]').forEach(b=>b.onclick=()=>{if(b.dataset.bank)setBank(b.dataset.bank);goTab(b.dataset.goTab)});
  app.querySelectorAll('[data-cert]').forEach(b=>b.onclick=()=>{const c=CERTS.find(x=>x.id===b.dataset.cert);if(c&&c.tabs){setBank(c.id);goTab('cert')}else goTab('cx',b.dataset.cert)});

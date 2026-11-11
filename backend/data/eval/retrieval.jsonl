@@ -1,0 +1,30 @@
+{"query": "Where is raw ingested data stored before it is mapped?", "cert": "d360", "relevant_docs": ["01-ingestion-and-modeling.md"], "relevant_headings": ["Data lake objects (DLO)"]}
+{"query": "Mapping user, contact and subscriber schemas to one standard person object", "cert": "d360", "relevant_docs": ["01-ingestion-and-modeling.md"], "relevant_headings": ["Data model objects (DMO) and harmonization"]}
+{"query": "Query Snowflake data without copying it into the platform", "cert": "d360", "relevant_docs": ["01-ingestion-and-modeling.md"], "relevant_headings": ["Zero copy and federation"]}
+{"query": "one vehicle owned by a single person but a person owns many vehicles", "cert": "d360", "relevant_docs": ["01-ingestion-and-modeling.md"], "relevant_headings": ["Relationships and cardinality"]}
+{"query": "simple row-level string cleanup vs heavy joins on a schedule", "cert": "d360", "relevant_docs": ["01-ingestion-and-modeling.md"], "relevant_headings": ["Transforms and formulas"]}
+{"query": "household members share an address and get merged into one profile", "cert": "d360", "relevant_docs": ["02-identity-resolution.md"], "relevant_headings": ["Avoiding over-matching"]}
+{"query": "match customers on a loyalty number", "cert": "d360", "relevant_docs": ["02-identity-resolution.md"], "relevant_headings": ["Match rules"]}
+{"query": "which source wins for first name when systems disagree", "cert": "d360", "relevant_docs": ["02-identity-resolution.md"], "relevant_headings": ["Reconciliation rules"]}
+{"query": "compute lifetime value for the unified profile from orders", "cert": "d360", "relevant_docs": ["02-identity-resolution.md"], "relevant_headings": ["Unified link objects"]}
+{"query": "why fewer profiles were processed in the last run", "cert": "d360", "relevant_docs": ["02-identity-resolution.md"], "relevant_headings": ["Processing"]}
+{"query": "customers who bought black pants in the same order line", "cert": "d360", "relevant_docs": ["03-segmentation-and-insights.md"], "relevant_headings": ["Containers and logic"]}
+{"query": "reuse the platinum loyalty audience inside another audience", "cert": "d360", "relevant_docs": ["03-segmentation-and-insights.md"], "relevant_headings": ["Nested segments"]}
+{"query": "page views aggregated over the last 15 minutes from the mobile app", "cert": "d360", "relevant_docs": ["03-segmentation-and-insights.md"], "relevant_headings": ["Streaming insights"]}
+{"query": "predict days to close an opportunity with a model", "cert": "d360", "relevant_docs": ["03-segmentation-and-insights.md"], "relevant_headings": ["Einstein Studio models"]}
+{"query": "show all cases of the unified customer on the contact page", "cert": "d360", "relevant_docs": ["04-act-on-data-and-admin.md"], "relevant_headings": ["Enrichments in CRM"]}
+{"query": "update a CRM field as soon as a record changes", "cert": "d360", "relevant_docs": ["04-act-on-data-and-admin.md"], "relevant_headings": ["Data actions"]}
+{"query": "keep brands separated inside one org", "cert": "d360", "relevant_docs": ["04-act-on-data-and-admin.md"], "relevant_headings": ["Data spaces and permissions"]}
+{"query": "what a sandbox copy contains after refresh", "cert": "d360", "relevant_docs": ["04-act-on-data-and-admin.md"], "relevant_headings": ["Sandboxes"]}
+{"query": "users at the same level cannot see each other's private records", "cert": "sva", "relevant_docs": ["01-record-access.md"], "relevant_headings": ["Role hierarchy"]}
+{"query": "sharing logic too complex for declarative rules", "cert": "sva", "relevant_docs": ["01-record-access.md"], "relevant_headings": ["Teams, manual sharing and Apex managed sharing"]}
+{"query": "access to a junction record with two parents", "cert": "sva", "relevant_docs": ["01-record-access.md"], "relevant_headings": ["Implicit sharing and master-detail"]}
+{"query": "hide a field from some users who have the same profile", "cert": "sva", "relevant_docs": ["02-permissions.md"], "relevant_headings": ["Field-level security"]}
+{"query": "remove delete permission for interns inside a group of permission sets", "cert": "sva", "relevant_docs": ["02-permissions.md"], "relevant_headings": ["Permission set groups and muting"]}
+{"query": "let an integration user skip a validation rule", "cert": "sva", "relevant_docs": ["02-permissions.md"], "relevant_headings": ["Custom permissions"]}
+{"query": "method in a without sharing class called from a with sharing class", "cert": "sva", "relevant_docs": ["03-security-model-and-apex.md"], "relevant_headings": ["Sharing keywords in Apex"]}
+{"query": "respect field level security in apex queries", "cert": "sva", "relevant_docs": ["03-security-model-and-apex.md"], "relevant_headings": ["Enforcing CRUD and FLS in code"]}
+{"query": "one owner with too many records slows recalculation", "cert": "sva", "relevant_docs": ["03-security-model-and-apex.md"], "relevant_headings": ["Performance and large data volumes"]}
+{"query": "every viewer sees only their own data in a dashboard", "cert": "sva", "relevant_docs": ["04-other-data.md"], "relevant_headings": ["Reports and dashboards"]}
+{"query": "give community users access based on their account", "cert": "sva", "relevant_docs": ["04-other-data.md"], "relevant_headings": ["Experience Cloud (external users)"]}
+{"query": "sales coverage that does not follow the reporting structure", "cert": "sva", "relevant_docs": ["01-record-access.md"], "relevant_headings": ["Enterprise Territory Management"]}

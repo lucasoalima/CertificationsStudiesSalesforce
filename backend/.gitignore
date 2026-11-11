@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+data/index/
+data/out/
+reports/*
+!reports/.gitkeep
+# seus documentos e bancos privados ficam fora do Git
+data/docs/*
+!data/docs/sample/
+*.private.json

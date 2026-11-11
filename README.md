@@ -2,7 +2,18 @@
 
 App de estudos para quem trabalha com Salesforce e quer se preparar para **certificações** e **entrevistas técnicas**: simulados no formato da prova, reforço por seção do exam guide, aulas com diagramas, trilha de código Apex do zero e um entrevistador com IA.
 
-Tudo roda num único arquivo (`index.html`), sem build e sem backend. Mobile-first.
+O projeto tem duas partes:
+
+- **`index.html`** — o app (HTML, CSS e JavaScript puro, sem build, mobile-first).
+- **[`backend/`](backend)** — um pipeline de IA em Python (**RAG + LLM-as-a-judge**) que gera questões fundamentadas em documentos, verifica cada uma antes de entrar no banco e mede a qualidade com experimentos reproduzíveis. Detalhes em [`backend/README.md`](backend/README.md).
+
+```mermaid
+flowchart LR
+  DOCS[Seus documentos<br/>PDF · HTML · MD] --> RAG[backend/qgen<br/>RAG + verificação]
+  RAG -->|questões verificadas| APP[index.html]
+  APP -->|banco atual, para dedupe| RAG
+  LLM[Claude ou Ollama] <--> RAG
+```
 
 <p align="center">
   <img src="docs/screenshots/01-hoje.png" width="200">
@@ -62,7 +73,22 @@ Múltipla resposta: `Answer: A, C` (ou `Resposta: A, C`). A linha `Explanation:`
 
 > Use apenas questões que você tem direito de usar (material próprio, de cursos que permitem, ou geradas pelo app).
 
-## Como rodar
+## Backend de IA (Python)
+
+```powershell
+cd backend
+python -m venv .venv; .venv\Scripts\Activate.ps1
+pip install -r requirements-dev.txt
+python -m pytest           # testes offline
+python -m qgen ingest      # indexa os documentos
+python -m qgen serve       # API em http://127.0.0.1:8000
+```
+
+Depois, no app: **Certificações → ⚙️ IA → Backend RAG** = `http://127.0.0.1:8000`. O **✨ Gerar perguntas** passa a usar o pipeline. Também dá para usar só pela linha de comando (`generate`, `verify`, `complete`, `dedupe`, `eval`).
+
+Principais técnicas: chunking por seção com overlap, embeddings plugáveis (baseline léxico, Ollama, sentence-transformers), busca por cosseno com MMR, geração com citação dos trechos, validação de schema com Pydantic, verificação cega por um segundo modelo, groundedness, dedupe semântico, avaliação de retrieval (Recall@k, MRR) e de geração (concordância, groundedness, vieses de posição e de tamanho da alternativa correta).
+
+## Como rodar o app
 
 **Opção 1 — direto no navegador:** baixe o `index.html` e abra. Ou ative o **GitHub Pages** neste repositório (Settings → Pages → branch `main`, pasta `/root`) e use pelo celular.
 
@@ -81,7 +107,8 @@ O progresso fica salvo no navegador (localStorage). No claude.ai, também na sua
 
 ## Tecnologia
 
-HTML, CSS e JavaScript puro em um arquivo. Sem dependências, sem build, sem servidor.
+- **App:** HTML, CSS e JavaScript puro em um arquivo.
+- **Backend:** Python 3.10+, FastAPI, Pydantic, NumPy, httpx; LLMs via API da Anthropic ou Ollama; pytest.
 
 ## Aviso
 

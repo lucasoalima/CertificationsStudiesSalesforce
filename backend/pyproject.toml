@@ -1,0 +1,16 @@
+[project]
+name = "qgen"
+version = "0.1.0"
+description = "RAG-based question generation and verification for Salesforce certification study"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "pydantic>=2.6", "httpx>=0.27", "fastapi>=0.110", "uvicorn>=0.29", "pypdf>=4.0", "beautifulsoup4>=4.12"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+st = ["sentence-transformers>=3.0"]
+
+[project.scripts]
+qgen = "qgen.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

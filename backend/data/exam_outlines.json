@@ -1,0 +1,113 @@
+[
+  {
+    "id": "d360",
+    "name": "Data 360 Consultant",
+    "code": "Data-Con-101",
+    "sections": [
+      {
+        "k": "ov",
+        "name": "Data 360 overview",
+        "w": 18,
+        "topics": "value of Data 360, use cases, unified customer profile, implementation best practices, ethics and data privacy"
+      },
+      {
+        "k": "setup",
+        "name": "Setup and administration",
+        "w": 12,
+        "topics": "permission sets, data spaces, sandboxes, connectors setup, governance"
+      },
+      {
+        "k": "ingest",
+        "name": "Data ingestion and modeling",
+        "w": 20,
+        "topics": "data streams, data lake objects, data model objects, mapping, harmonization, relationships, transforms, formulas, zero copy federation"
+      },
+      {
+        "k": "ir",
+        "name": "Identity resolution",
+        "w": 14,
+        "topics": "identity resolution rulesets, match rules, reconciliation rules, unified individual, party identification"
+      },
+      {
+        "k": "seg",
+        "name": "Segmentation and insights",
+        "w": 18,
+        "topics": "segments, containers, nested segments, calculated insights, streaming insights, Einstein Studio models"
+      },
+      {
+        "k": "act",
+        "name": "Act on data",
+        "w": 18,
+        "topics": "activations, activation targets, data actions, related list enrichment, copy field enrichment, data sharing, consent"
+      }
+    ]
+  },
+  {
+    "id": "sva",
+    "name": "Sharing and Visibility Architect",
+    "code": "Plat-Arch-205",
+    "sections": [
+      {
+        "k": "rec",
+        "name": "Access to records",
+        "w": 39,
+        "topics": "organization-wide defaults, role hierarchy, sharing rules, teams, manual sharing, Apex managed sharing, territories, master-detail"
+      },
+      {
+        "k": "perm",
+        "name": "Permissions to objects and fields",
+        "w": 27,
+        "topics": "profiles, permission sets, permission set groups, muting, field-level security, View All, custom permissions"
+      },
+      {
+        "k": "impl",
+        "name": "Implications of the security model",
+        "w": 18,
+        "topics": "with sharing, without sharing, user mode, stripInaccessible, data skew, sharing recalculation, performance"
+      },
+      {
+        "k": "other",
+        "name": "Access to other data",
+        "w": 16,
+        "topics": "reports, dashboards, files, knowledge, Experience Cloud external users, sharing sets, guest users, list views"
+      }
+    ]
+  },
+  {
+    "id": "ai201",
+    "name": "Agentforce Specialist",
+    "code": "AI-201",
+    "sections": [
+      {
+        "k": "prompt",
+        "name": "Prompt Engineering",
+        "topics": "prompt templates, Prompt Builder, grounding, flex templates"
+      },
+      {
+        "k": "data",
+        "name": "Data 360 Fundamentals",
+        "topics": "Data 360, data libraries, retrievers, search index, RAG"
+      },
+      {
+        "k": "agents",
+        "name": "AI Agents",
+        "topics": "agents, topics, actions, instructions, Agent Builder, Agent Script"
+      },
+      {
+        "k": "test",
+        "name": "Testing, Deployment, and Maintenance",
+        "topics": "Testing Center, deployment, sandboxes, lifecycle"
+      },
+      {
+        "k": "gov",
+        "name": "Governance and Observability",
+        "topics": "Einstein Trust Layer, audit trail, data masking, observability, analytics"
+      },
+      {
+        "k": "multi",
+        "name": "Multi-Agent Orchestration",
+        "topics": "multi-agent orchestration, agent-to-agent, handoff"
+      }
+    ]
+  }
+]

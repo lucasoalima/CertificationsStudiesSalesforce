@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest>=8.0
+# opcional: embeddings semânticos locais sem Ollama
+# sentence-transformers>=3.0
